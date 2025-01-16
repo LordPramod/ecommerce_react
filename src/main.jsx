@@ -8,7 +8,6 @@ import SideBarWithHeader from "./components/SideBarWithHeader.jsx";
 import Products from "./components/Products.jsx";
 import Cart from "./components/Cart.jsx";
 import SearchProvider from "./context/SearchContext.jsx";
-import CartProvider from "./context/CartProvider.jsx";
 import ProductProvider from "./context/ProductProvider.jsx";
 import DeleteProduct from "./components/DeleteProduct.jsx";
 const router = createBrowserRouter([
