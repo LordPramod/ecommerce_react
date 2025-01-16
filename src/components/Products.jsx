@@ -7,6 +7,19 @@ import { useProduct } from "../context/ProductProvider";
 const Products = () => {
   const { products, setProducts } = useProduct();
   const { searchValue } = useSearch();
+  // const fetchProducts = async () => {
+  //   try {
+  //     const response = await fetch("https://api.escuelajs.co/api/v1/products");
+  //     const data = await response.json();
+  //     setProducts(data);
+  //     localStorage.setItem("products", JSON.stringify(products));
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
+  // useEffect(() => {
+  //   fetchProducts();
+  // }, []);
   // const { cart, setCart } = useCart();
   const handelCart = (index) => {
     products

@@ -9,6 +9,7 @@ const ProductProvider = ({ children }) => {
 
     if (localProducts) {
       setProducts(JSON.parse(localProducts));
+      console.log("products" + JSON.parse(localProducts));
     } else {
       fetchProducts();
     }
@@ -28,7 +29,7 @@ const ProductProvider = ({ children }) => {
     if (products.length > 0) {
       localStorage.setItem("products", JSON.stringify(products));
     }
-  });
+  }, [products]);
   return (
     <ProductContext.Provider value={{ products, setProducts }}>
       {children}

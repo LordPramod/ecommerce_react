@@ -4,18 +4,18 @@ import "./index.css";
 import App from "./App.jsx";
 import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
 import { createBrowserRouter, RouterProvider } from "react-router";
-import SideBarWithHeader from "./components/SideBarWithHeader.jsx";
 import Products from "./components/Products.jsx";
 import Cart from "./components/Cart.jsx";
 import SearchProvider from "./context/SearchContext.jsx";
 import ProductProvider from "./context/ProductProvider.jsx";
 import DeleteProduct from "./components/DeleteProduct.jsx";
+import SidebarAndHeader from "./components/SidebarAndHeader.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
       <SearchProvider>
-        <SideBarWithHeader />,
+        <SidebarAndHeader />
       </SearchProvider>
     ),
     children: [

@@ -34,7 +34,7 @@ import { Form, NavLink, Outlet } from "react-router";
 import { useState } from "react";
 import { useSearch } from "../context/SearchContext.jsx";
 
-const SideBarWithHeader = () => {
+const SidebarAndHeader = () => {
   const handelSubmit = (e) => {
     e.preventDefault();
     console.log(searchValue);
@@ -101,7 +101,7 @@ const SideBarWithHeader = () => {
                 alignItems={"center"}
               >
                 <FiDelete />
-                <NavLink to={"/deleteProduct"}>Delete</NavLink>
+                <NavLink to={"/"}>Delete</NavLink>
               </Box>
             </Box>
             <Box py={4} borderRadius={"10px"} _hover={{ bg: "cyan.400" }}>
@@ -188,4 +188,4 @@ const SideBarWithHeader = () => {
   );
 };
 
-export default SideBarWithHeader;
+export default SidebarAndHeader;
