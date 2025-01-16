@@ -101,7 +101,7 @@ const SidebarAndHeader = () => {
                 alignItems={"center"}
               >
                 <FiDelete />
-                <NavLink to={"/"}>Delete</NavLink>
+                <NavLink to={"/deleteProduct"}>Delete</NavLink>
               </Box>
             </Box>
             <Box py={4} borderRadius={"10px"} _hover={{ bg: "cyan.400" }}>
