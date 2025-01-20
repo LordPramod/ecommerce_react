@@ -9,7 +9,6 @@ const ProductProvider = ({ children }) => {
 
     if (localProducts) {
       setProducts(JSON.parse(localProducts));
-      console.log("products" + JSON.parse(localProducts));
     } else {
       fetchProducts();
     }
