@@ -131,7 +131,7 @@ const Products = () => {
                       ${product.price}.00
                     </Text>
                   </Box>
-                  <Flex p="4" justify="space-between" align="center">
+                  <Flex p="2" gap={4} align="center">
                     <NavLink to={`/productDetails/${index}`}>
                       <Button
                         colorScheme="teal"

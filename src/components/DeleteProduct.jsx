@@ -26,16 +26,23 @@ import { useProduct } from "../context/ProductProvider";
 import { useSearch } from "../context/SearchContext";
 import { FiCheckCircle } from "react-icons/fi";
 import { useState } from "react";
+import { useCart } from "../context/CartProvider";
 
 const DeleteProduct = () => {
   const { products, setProducts } = useProduct();
   const { searchValue } = useSearch();
-
+  const { cart, setCart } = useCart();
   const [productId, setProductId] = useState(null);
 
   const handleDelete = (index) => {
-    const updatedProducts = products.filter((product, i) => i !== index);
+    const deletedProduct = products[index];
+    const updatedProducts = products.filter((_, i) => i !== index);
     setProducts(updatedProducts);
+
+    const updatedCart = cart.filter((item) => item.id !== deletedProduct.id);
+    setCart(updatedCart);
+
+    localStorage.setItem("cartItems", JSON.stringify(updatedCart));
   };
 
   const toast = useToast();

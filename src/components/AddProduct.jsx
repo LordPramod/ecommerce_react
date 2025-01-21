@@ -22,13 +22,10 @@ const AddProduct = () => {
   const [productCategory, setProductCategory] = useState("");
   const [productDescription, setProductDescription] = useState("");
   const [productPrice, setProductPrice] = useState("");
-  const [productImage, setProductImage] = useState("");
+  const [productImageLink, setProductImageLink] = useState("");
+  const [productImageFile, setProductImageFile] = useState(null);
   const { products, setProducts } = useProduct();
-  console.log(products.length);
-  console.log(products);
   const toast = useToast();
-
-  // Update product
 
   const handelAdd = () => {
     if (productName && productCategory && productDescription && productPrice) {
@@ -38,12 +35,12 @@ const AddProduct = () => {
           id: products.length + 1,
           name: productCategory,
         },
-        images: [productImage],
+        images: [productImageFile ? productImageFile : productImageLink],
         price: productPrice,
         description: productDescription,
       };
+
       setProducts([...products, newProduct]);
-      console.log(products);
       toast({
         title: "Success!!!",
         description: `${productName} Has been added Successfully`,
@@ -53,12 +50,10 @@ const AddProduct = () => {
         status: "success",
         icon: <FiCheckCircle />,
       });
-
-      // console.log(products.length);
     } else {
       toast({
         title: "Error!!!",
-        description: "All Informations are required !!!",
+        description: "All Information is required !!!",
         duration: 5000,
         isClosable: true,
         position: "top-right",
@@ -66,11 +61,12 @@ const AddProduct = () => {
       });
     }
 
-    setProductCategory("");
-    setProductImage("");
     setProductName("");
-    setProductDescription("");
     setProductCategory("");
+    setProductDescription("");
+    setProductPrice("");
+    setProductImageLink("");
+    setProductImageFile(null);
   };
 
   return (
@@ -94,7 +90,6 @@ const AddProduct = () => {
                   ></Input>
                   {!productName ? (
                     <FormHelperText color={"red.500"} fontWeight={"medium"}>
-                      {" "}
                       Enter Valid Name
                     </FormHelperText>
                   ) : (
@@ -118,7 +113,6 @@ const AddProduct = () => {
                     </Select>
                     {!productCategory ? (
                       <FormHelperText color={"red.500"} fontWeight={"medium"}>
-                        {" "}
                         Select Product Category
                       </FormHelperText>
                     ) : (
@@ -159,29 +153,25 @@ const AddProduct = () => {
                   </FormControl>
                   <Stack>
                     <FormControl>
-                      <FormLabel> Select Image</FormLabel>
+                      <FormLabel>Select Image</FormLabel>
                       <Input
                         type="file"
                         colorScheme="teal"
                         onChange={(e) => {
-                          // console.log(e.target.files[0]);
-                          const image = e.target.files[0];
-                          if (image) {
-                            const reader = new FileReader();
-                            reader.onload = () => {
-                              const realImg = reader.result;
-                            };
-                            reader.readAsDataURL(image);
+                          const file = e.target.files[0];
+                          if (file) {
+                            const fileUrl = URL.createObjectURL(file);
+                            setProductImageFile(fileUrl);
                           }
                         }}
                       />
                     </FormControl>
                     <FormControl>
-                      <FormLabel> Enter Image Link</FormLabel>
+                      <FormLabel>Enter Image Link</FormLabel>
                       <Input
                         colorScheme="teal"
                         onChange={(e) => {
-                          setProductImage(e.target.value);
+                          setProductImageLink(e.target.value);
                         }}
                       />
                     </FormControl>

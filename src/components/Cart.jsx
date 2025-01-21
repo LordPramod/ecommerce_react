@@ -6,26 +6,20 @@ import {
   HStack,
   IconButton,
   Image,
-  Input,
-  Select,
-  SelectField,
-  Stack,
   Text,
   useToast,
+  VStack,
+  Divider,
 } from "@chakra-ui/react";
 import { useCart } from "../context/CartProvider";
 import { FiDelete } from "react-icons/fi";
 
 const Cart = () => {
   const { cart, setCart } = useCart();
-
   const toast = useToast();
 
   const handelDelete = (index) => {
-    console.log("click");
-    const newCart = cart.filter((_, i) => {
-      return i !== index;
-    });
+    const newCart = cart.filter((_, i) => i !== index);
     setCart(newCart);
     localStorage.setItem("cartItems", JSON.stringify(newCart));
   };
@@ -39,134 +33,122 @@ const Cart = () => {
   const totalPrice = subTotal - delivery - coupon;
 
   return (
-    <Box p={8} border={"1px solid black"}>
-      <Heading size={"xl"} mb={"20px"}>
-        Shopping Cart {cart.length} items
+    <Box p={6} maxW="1200px" mx="auto">
+      <Heading size="lg" mb={6} textAlign="center">
+        Shopping Cart ({cart.length} items)
       </Heading>
       <Flex
-        gap={"50px"}
-        overflowY={"auto"}
-        flexDir={{ base: "column", lg: "row" }}
+        gap={8}
+        direction={{ base: "column", lg: "row" }}
+        justify="space-between"
       >
-        <Stack
-          gap={"20px"}
-          overflowY={"auto"}
-          maxH={"100vh"}
-          width={{ base: "90vw" }}
+        <VStack
+          spacing={4}
+          w={{ base: "100%", lg: "65%" }}
+          maxH="70vh"
+          overflowY="auto"
+          borderWidth="1px"
+          borderRadius="lg"
+          p={4}
+          boxShadow="md"
         >
-          {!cart
-            ? "No Items in Cart"
-            : cart.map((item, index) => {
-                return (
-                  <Box
-                    key={index}
-                    p={4}
-                    borderWidth="1px"
-                    borderRadius="lg"
-                    boxShadow="md"
-                    border={"1px solid"}
-                  >
-                    <Flex alignItems={"center"}>
-                      <Image
-                        src={item.images[0]}
-                        maxHeight={"150px"}
-                        maxW={"150px"}
-                        objectFit="cover"
-                      />
-                      <Box p={4} flex="1">
-                        <Flex
-                          alignItems={"center"}
-                          justifyContent={"space-between"}
-                        >
-                          <Stack
-                            verticalAlign={"bottom"}
-                            minW={"200px"}
-                            minH={"100px"}
-                          >
-                            <Text>{item.title}</Text>
-                            <Text>Category : {item.category.name}</Text>
-                          </Stack>
-                          <HStack
-                            flex={"max-content"}
-                            flexDir={"row"}
-                            justify={"space-between"}
-                          >
-                            <Box w={"20px"} h={"20px"}>
-                              {item.quantity}
-                            </Box>
-
-                            <Text fontSize={"larger"} fontWeight={"medium"}>
-                              ${item.price}
-                            </Text>
-                            <IconButton
-                              colorScheme="red"
-                              variant={"ghost"}
-                              size={"sm"}
-                              onClick={() => {
-                                handelDelete(index);
-                                toast({
-                                  title: "Removed From Cart",
-                                  description: `${item.title} Has been removed from the cart!`,
-                                  duration: 5000,
-                                  isClosable: true,
-                                  colorScheme: "red",
-                                  position: "top-right",
-                                });
-                              }}
-                              icon={<FiDelete size={"sm"} />}
-                            />
-                          </HStack>
-                        </Flex>
-                      </Box>
-                    </Flex>
+          {cart.length === 0 ? (
+            <Text fontSize="lg" color="gray.500">
+              No items in the cart.
+            </Text>
+          ) : (
+            cart.map((item, index) => (
+              <Box
+                key={index}
+                p={4}
+                w="full"
+                borderWidth="1px"
+                borderRadius="lg"
+                boxShadow="sm"
+              >
+                <Flex align="center" gap={4}>
+                  <Image
+                    src={item.images[0]}
+                    alt={item.title}
+                    boxSize="100px"
+                    objectFit="cover"
+                    borderRadius="md"
+                  />
+                  <Box flex="1">
+                    <Text fontWeight="semibold" isTruncated>
+                      {item.title}
+                    </Text>
+                    <Text fontSize="sm" color="gray.500">
+                      Category: {item.category.name}
+                    </Text>
+                    <Text fontSize="sm" color="gray.600" mt={1}>
+                      Qty: {item.quantity || 1}
+                    </Text>
                   </Box>
-                );
-              })}
-        </Stack>
+                  <VStack align="flex-end">
+                    <Text fontWeight="bold" fontSize="lg">
+                      ${item.price}
+                    </Text>
+                    <IconButton
+                      colorScheme="red"
+                      aria-label="Delete item"
+                      size="sm"
+                      icon={<FiDelete />}
+                      onClick={() => {
+                        handelDelete(index);
+                        toast({
+                          title: "Item removed",
+                          description: `${item.title} was removed from the cart.`,
+                          status: "warning",
+                          duration: 3000,
+                          isClosable: true,
+                          position: "top-right",
+                        });
+                      }}
+                    />
+                  </VStack>
+                </Flex>
+              </Box>
+            ))
+          )}
+        </VStack>
 
         <Box
-          width={{ base: "300px", sm: "400px", md: "400px", lg: "500px" }}
-          margin={{ base: "0 auto", lg: "0" }}
+          w={{ base: "100%", lg: "30%" }}
+          borderWidth="1px"
+          borderRadius="lg"
+          p={4}
+          boxShadow="md"
         >
-          <Box
-            p={4}
-            borderWidth="1px"
-            borderRadius="lg"
-            boxShadow="md"
-            fontWeight={"thin"}
+          <Text fontSize="lg" fontWeight="semibold" mb={4}>
+            Order Summary
+          </Text>
+          <Divider mb={4} />
+          <Flex justify="space-between" mb={2}>
+            <Text>Subtotal</Text>
+            <Text>${subTotal.toFixed(2)}</Text>
+          </Flex>
+          <Flex justify="space-between" mb={2}>
+            <Text>Coupon Discount</Text>
+            <Text>${coupon.toFixed(2)}</Text>
+          </Flex>
+          <Flex justify="space-between" mb={2}>
+            <Text>Delivery Charge</Text>
+            <Text>${delivery.toFixed(2)}</Text>
+          </Flex>
+          <Divider my={4} />
+          <Flex justify="space-between" fontWeight="bold" fontSize="lg">
+            <Text>Total</Text>
+            <Text>${totalPrice.toFixed(2)}</Text>
+          </Flex>
+          <Button
+            colorScheme="teal"
+            w="full"
+            mt={4}
+            onClick={() => (location.href = "https://esewa.com.np/")}
           >
-            <Flex justifyContent={"space-between"} mb={2}>
-              <Text>Sub Total</Text>
-              <Text>${subTotal}</Text>
-            </Flex>
-            <Flex justifyContent={"space-between"} mb={2}>
-              <Text>Coupon</Text>
-              <Text>${coupon}</Text>
-            </Flex>
-            <Flex justifyContent={"space-between"} mb={2}>
-              <Text>Delivery Charge</Text>
-              <Text>${delivery}</Text>
-            </Flex>
-            <Flex
-              mt={4}
-              justifyContent={"space-between"}
-              fontWeight={"bold"}
-              fontSize={"xl"}
-            >
-              <Text>Total</Text>
-              <Text>${totalPrice}</Text>
-            </Flex>
-            <Button
-              colorScheme={"cyan"}
-              w={"full"}
-              mt={4}
-              onClick={() => {
-                location.href = "https://esewa.com.np/";
-              }}
-            >
-              CheckOut
-            </Button>
-          </Box>
+            Proceed to Checkout
+          </Button>
         </Box>
       </Flex>
     </Box>
