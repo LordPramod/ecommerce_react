@@ -34,23 +34,12 @@ const DeleteProduct = () => {
   const [productId, setProductId] = useState(null);
 
   const handleDelete = (index) => {
-    console.log("working");
     const updatedProducts = products.filter((product, i) => i !== index);
     setProducts(updatedProducts);
   };
 
   const toast = useToast();
 
-  // Update States
-
-  const [updatedProduct, setupdatedProduct] = useState({
-    title: "",
-    category: {
-      name: "",
-    },
-    price: "",
-    description: "",
-  });
   const [updatedProductName, setUpdatedProductName] = useState("");
   const [updatedProductCategory, setUpdatedProductCategory] = useState("");
   const [updatedProductDescription, setUpdatedProductDescription] =
@@ -60,16 +49,37 @@ const DeleteProduct = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handelUpdate = () => {
-    console.log(productId);
-    console.log(products[productId]);
-    console.log("Working");
+    const updatedProduct = {
+      title: updatedProductName || products[productId].title,
+      price: updatedProductPrice || products[productId].price,
+      category: {
+        name: updatedProductCategory || products[productId].category.name,
+      },
+      description: updatedProductDescription || products[productId].description,
+    };
+
+    const updatedProducts = [...products];
+    updatedProducts[productId] = updatedProduct;
+
+    setProducts(updatedProducts);
+    onClose();
+
+    toast({
+      title: "Product Updated!",
+      description: `${updatedProduct.title} has been updated.`,
+      duration: 5000,
+      isClosable: true,
+      position: "top-right",
+      status: "success",
+      icon: <FiCheckCircle />,
+    });
   };
 
   const openModal = (index) => {
     setProductId(index);
     onOpen();
   };
-  console.log(products);
+
   return (
     <Box
       display="flex"
@@ -99,8 +109,7 @@ const DeleteProduct = () => {
                     <Modal isCentered isOpen={isOpen} onClose={onClose}>
                       <ModalContent>
                         <ModalHeader>
-                          {" "}
-                          <Heading>Update Product </Heading>
+                          <Heading>Update Product</Heading>
                         </ModalHeader>
                         <ModalCloseButton onClick={onClose} />
                         <ModalBody>
@@ -141,6 +150,9 @@ const DeleteProduct = () => {
                                   ? products[productId].category.name
                                   : ""
                               }
+                              onChange={(e) => {
+                                setUpdatedProductCategory(e.target.value);
+                              }}
                             >
                               <option value="Clothes">Clothes</option>
                               <option value="Shoes">Shoes</option>
@@ -148,7 +160,7 @@ const DeleteProduct = () => {
                               <option value="Shorts">Shorts</option>
                             </Select>
                           </FormControl>
-                          <FormControl>
+                          <FormControl mt={4}>
                             <FormLabel>Description</FormLabel>
                             <Textarea
                               placeholder="Enter product description"
@@ -157,6 +169,9 @@ const DeleteProduct = () => {
                                   ? products[productId].description
                                   : ""
                               }
+                              onChange={(e) => {
+                                setUpdatedProductDescription(e.target.value);
+                              }}
                             />
                           </FormControl>
                         </ModalBody>
@@ -167,9 +182,7 @@ const DeleteProduct = () => {
                           <Button
                             width={"80%"}
                             colorScheme="teal"
-                            onClick={() => {
-                              handelUpdate();
-                            }}
+                            onClick={handelUpdate}
                           >
                             Update
                           </Button>
@@ -209,7 +222,6 @@ const DeleteProduct = () => {
               </Card>
             );
           })}
-      <Box> </Box>
     </Box>
   );
 };

@@ -124,7 +124,10 @@ const Cart = () => {
               })}
         </Stack>
 
-        <Box minW={"350px"}>
+        <Box
+          width={{ base: "300px", sm: "400px", md: "400px", lg: "500px" }}
+          margin={{ base: "0 auto", lg: "0" }}
+        >
           <Box
             p={4}
             borderWidth="1px"

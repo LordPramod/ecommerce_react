@@ -29,7 +29,6 @@ const AddProduct = () => {
   const toast = useToast();
 
   // Update product
-  const [updateProducts, setUpdatedProducts] = useState("");
 
   const handelAdd = () => {
     if (productName && productCategory && productDescription && productPrice) {
@@ -54,6 +53,7 @@ const AddProduct = () => {
         status: "success",
         icon: <FiCheckCircle />,
       });
+
       // console.log(products.length);
     } else {
       toast({
@@ -65,6 +65,12 @@ const AddProduct = () => {
         status: "error",
       });
     }
+
+    setProductCategory("");
+    setProductImage("");
+    setProductName("");
+    setProductDescription("");
+    setProductCategory("");
   };
 
   return (
@@ -105,8 +111,8 @@ const AddProduct = () => {
                       placeholder="Select Category"
                     >
                       <option value="Clothes">Clothes</option>
-                      <option value="Shorts">Shorts</option>
                       <option value="Shoes">Shoes</option>
+                      <option value="Miscellaneous">Miscellaneous</option>
                       <option value="Electronics">Electronics</option>
                       <option value="Furniture">Furniture</option>
                     </Select>

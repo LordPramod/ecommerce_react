@@ -82,8 +82,9 @@ const Products = () => {
         display={"inline-flex"}
         flexWrap={"wrap"}
         justifyContent={{ base: "center", sm: "center", md: "space-between" }}
+        ml={{ base: "0", md: "40px" }}
+        mr={"10px"}
         rowGap={"30px"}
-        border={"1px solid"}
       >
         {products &&
           products
@@ -106,15 +107,14 @@ const Products = () => {
             })
             .map((product, index) => (
               <Card
+                padding={10}
                 key={index}
                 maxW="sm"
-                borderWidth="1px"
                 borderRadius="lg"
                 overflow="hidden"
                 boxShadow="md"
                 bg={"gray.100"}
                 color={"blackAlpha.900"}
-                gap={{ base: "20px", md: "10px" }}
               >
                 <Image
                   src={product.images}
